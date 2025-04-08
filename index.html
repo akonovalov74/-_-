@@ -3,10 +3,660 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Мой проект</title>
+    <title>AI-Pulse | Новости искусственного интеллекта</title>
+    <style>
+        :root {
+            --primary-color: #3a86ff;
+            --secondary-color: #8338ec;
+            --dark-color: #1a1a2e;
+            --light-color: #f8f9fa;
+            --success-color: #38b000;
+            --warning-color: #ffbe0b;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f4f6f9;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo span {
+            color: var(--warning-color);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 20px;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        nav ul li a:hover {
+            color: var(--warning-color);
+        }
+        
+        /* Hero Section */
+        .hero {
+            background-color: var(--dark-color);
+            color: white;
+            padding: 3rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('/api/placeholder/1200/600') center/cover no-repeat;
+            opacity: 0.2;
+            z-index: 1;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+        }
+        
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            opacity: 0.9;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* News Section */
+        .news-section {
+            padding: 3rem 0;
+        }
+        
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            color: var(--dark-color);
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .section-title::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+        }
+        
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+        }
+        
+        .news-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .news-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .news-img {
+            height: 200px;
+            overflow: hidden;
+        }
+        
+        .news-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .news-card:hover .news-img img {
+            transform: scale(1.05);
+        }
+        
+        .news-content {
+            padding: 20px;
+        }
+        
+        .news-tag {
+            display: inline-block;
+            background-color: rgba(58, 134, 255, 0.1);
+            color: var(--primary-color);
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-bottom: 10px;
+        }
+        
+        .news-title {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+        
+        .news-desc {
+            color: #666;
+            margin-bottom: 15px;
+        }
+        
+        .news-date {
+            color: #888;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        /* Featured News */
+        .featured-news {
+            grid-column: span 2;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .featured-news .news-img {
+            height: 350px;
+        }
+        
+        /* Trending Section */
+        .trending-section {
+            background-color: white;
+            padding: 3rem 0;
+        }
+        
+        .trending-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+        
+        .trending-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+            transition: all 0.3s ease;
+        }
+        
+        .trending-item:hover {
+            background-color: #f0f0f0;
+        }
+        
+        .trending-num {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--secondary-color);
+            margin-right: 15px;
+            opacity: 0.3;
+        }
+        
+        .trending-content h3 {
+            font-size: 1rem;
+            margin-bottom: 5px;
+        }
+        
+        .trending-content small {
+            color: #888;
+        }
+        
+        /* Subscribe Section */
+        .subscribe-section {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+        }
+        
+        .subscribe-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .subscribe-form {
+            display: flex;
+            margin-top: 20px;
+        }
+        
+        .subscribe-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: none;
+            border-radius: 5px 0 0 5px;
+            font-size: 1rem;
+        }
+        
+        .subscribe-btn {
+            background-color: var(--dark-color);
+            color: white;
+            border: none;
+            border-radius: 0 5px 5px 0;
+            padding: 0 20px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .subscribe-btn:hover {
+            background-color: var(--warning-color);
+            color: var(--dark-color);
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--dark-color);
+            color: white;
+            padding: 3rem 0 1rem;
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .footer-col h3 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-col h3::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background-color: var(--primary-color);
+        }
+        
+        .footer-col ul {
+            list-style: none;
+        }
+        
+        .footer-col ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-col ul li a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .footer-col ul li a:hover {
+            color: white;
+            padding-left: 5px;
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 1024px) {
+            .featured-news {
+                grid-column: span 1;
+            }
+            
+            .trending-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .news-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            }
+            
+            .trending-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .subscribe-form {
+                flex-direction: column;
+            }
+            
+            .subscribe-input {
+                border-radius: 5px;
+                margin-bottom: 10px;
+            }
+            
+            .subscribe-btn {
+                border-radius: 5px;
+                padding: 12px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .header-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            nav ul {
+                margin-top: 15px;
+                justify-content: center;
+            }
+            
+            nav ul li {
+                margin: 0 10px;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
 </head>
 <body>
-    <h1>Привет, мир!</h1>
-    <p>Это мой первый проект на GitHub.</p>
+    <!-- Header Section -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">AI-<span>Pulse</span></div>
+            <nav>
+                <ul>
+                    <li><a href="#">Главная</a></li>
+                    <li><a href="#">Новости</a></li>
+                    <li><a href="#">Технологии</a></li>
+                    <li><a href="#">Аналитика</a></li>
+                    <li><a href="#">О нас</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container hero-content">
+            <h1>Будущее ИИ создается сегодня</h1>
+            <p>Самые актуальные новости, исследования и аналитика в мире искусственного интеллекта.</p>
+            <a href="#" class="btn">Подписаться на обновления</a>
+        </div>
+    </section>
+
+    <!-- Main News Section -->
+    <section class="news-section">
+        <div class="container">
+            <h2 class="section-title">Последние новости</h2>
+            <div class="news-grid">
+                <div class="news-card featured-news">
+                    <div class="news-img">
+                        <img src="/api/placeholder/800/400" alt="Главная новость">
+                    </div>
+                    <div class="news-content">
+                        <span class="news-tag">Прорыв</span>
+                        <h3 class="news-title">Claude 3.7 Sonnet: новое поколение ИИ с улучшенным режимом рассуждений</h3>
+                        <p class="news-desc">Anthropic представила свою последнюю модель Claude 3.7 Sonnet с революционным "режимом рассуждений", который позволяет ИИ глубже анализировать сложные задачи перед предоставлением ответа, значительно повышая точность.</p>
+                        <p class="news-desc">Новая модель демонстрирует улучшенные способности в задачах требующих многоступенчатого мышления и отличается более глубоким пониманием запросов пользователей.</p>
+                        <div class="news-date">7 апреля 2025</div>
+                    </div>
+                </div>
+                
+                <div class="news-card">
+                    <div class="news-img">
+                        <img src="/api/placeholder/400/200" alt="Новости ИИ">
+                    </div>
+                    <div class="news-content">
+                        <span class="news-tag">Регулирование</span>
+                        <h3 class="news-title">ЕС принял первый в мире всеобъемлющий закон об искусственном интеллекте</h3>
+                        <p class="news-desc">Европейский парламент окончательно утвердил "AI Act", устанавливающий строгие правила для разработчиков крупных языковых моделей и систем ИИ высокого риска.</p>
+                        <div class="news-date">5 апреля 2025</div>
+                    </div>
+                </div>
+                
+                <div class="news-card">
+                    <div class="news-img">
+                        <img src="/api/placeholder/400/200" alt="Новости ИИ">
+                    </div>
+                    <div class="news-content">
+                        <span class="news-tag">Исследования</span>
+                        <h3 class="news-title">OpenAI продемонстрировал мультимодальную систему, превосходящую человеческие возможности</h3>
+                        <p class="news-desc">Новая система способна не только понимать текст и изображения, но и работать с видео и звуком в реальном времени, показывая глубокое межмодальное понимание.</p>
+                        <div class="news-date">3 апреля 2025</div>
+                    </div>
+                </div>
+                
+                <div class="news-card">
+                    <div class="news-img">
+                        <img src="/api/placeholder/400/200" alt="Новости ИИ">
+                    </div>
+                    <div class="news-content">
+                        <span class="news-tag">Бизнес</span>
+                        <h3 class="news-title">Российские компании увеличили инвестиции в ИИ на 75% за последний год</h3>
+                        <p class="news-desc">Согласно последнему отчету, отечественные предприятия значительно нарастили вложения в технологии искусственного интеллекта, особенно в секторах финансов и промышленности.</p>
+                        <div class="news-date">1 апреля 2025</div>
+                    </div>
+                </div>
+                
+                <div class="news-card">
+                    <div class="news-img">
+                        <img src="/api/placeholder/400/200" alt="Новости ИИ">
+                    </div>
+                    <div class="news-content">
+                        <span class="news-tag">Технологии</span>
+                        <h3 class="news-title">Google представил новый чип TPU v5 для обучения моделей ИИ</h3>
+                        <p class="news-desc">Тензорные процессоры пятого поколения обеспечивают в 3 раза большую производительность при том же энергопотреблении, что и предыдущее поколение.</p>
+                        <div class="news-date">30 марта 2025</div>
+                    </div>
+                </div>
+                
+                <div class="news-card">
+                    <div class="news-img">
+                        <img src="/api/placeholder/400/200" alt="Новости ИИ">
+                    </div>
+                    <div class="news-content">
+                        <span class="news-tag">Медицина</span>
+                        <h3 class="news-title">ИИ помог обнаружить новый класс антибиотиков против супербактерий</h3>
+                        <p class="news-desc">Международная команда ученых с помощью алгоритмов машинного обучения идентифицировала молекулярные соединения, эффективные против устойчивых к лекарствам патогенов.</p>
+                        <div class="news-date">29 марта 2025</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trending Section -->
+    <section class="trending-section">
+        <div class="container">
+            <h2 class="section-title">В тренде</h2>
+            <div class="trending-grid">
+                <div class="trending-item">
+                    <div class="trending-num">01</div>
+                    <div class="trending-content">
+                        <h3>Мультимодальные ИИ становятся новым стандартом индустрии</h3>
+                        <small>5 часов назад</small>
+                    </div>
+                </div>
+                
+                <div class="trending-item">
+                    <div class="trending-num">02</div>
+                    <div class="trending-content">
+                        <h3>Исследование: 67% работников ИТ-сферы используют ИИ ежедневно</h3>
+                        <small>8 часов назад</small>
+                    </div>
+                </div>
+                
+                <div class="trending-item">
+                    <div class="trending-num">03</div>
+                    <div class="trending-content">
+                        <h3>Новый фреймворк для оценки этичности алгоритмов</h3>
+                        <small>1 день назад</small>
+                    </div>
+                </div>
+                
+                <div class="trending-item">
+                    <div class="trending-num">04</div>
+                    <div class="trending-content">
+                        <h3>Роботы Boston Dynamics получили возможность самообучения</h3>
+                        <small>1 день назад</small>
+                    </div>
+                </div>
+                
+                <div class="trending-item">
+                    <div class="trending-num">05</div>
+                    <div class="trending-content">
+                        <h3>Как ИИ меняет подход к кибербезопасности в 2025 году</h3>
+                        <small>2 дня назад</small>
+                    </div>
+                </div>
+                
+                <div class="trending-item">
+                    <div class="trending-num">06</div>
+                    <div class="trending-content">
+                        <h3>Первый в мире курс высшего образования, полностью разработанный ИИ</h3>
+                        <small>2 дня назад</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Subscribe Section -->
+    <section class="subscribe-section">
+        <div class="container subscribe-container">
+            <h2>Оставайтесь в курсе последних новостей ИИ</h2>
+            <p>Подпишитесь на нашу рассылку и получайте самую актуальную информацию о развитии искусственного интеллекта</p>
+            <form class="subscribe-form">
+                <input type="email" class="subscribe-input" placeholder="Ваш email адрес">
+                <button type="submit" class="subscribe-btn">Подписаться</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h3>AI-Pulse</h3>
+                    <ul>
+                        <li><a href="#">О проекте</a></li>
+                        <li><a href="#">Команда</a></li>
+                        <li><a href="#">Карьера</a></li>
+                        <li><a href="#">Контакты</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>Разделы</h3>
+                    <ul>
+                        <li><a href="#">Новости</a></li>
+                        <li><a href="#">Технологии</a></li>
+                        <li><a href="#">Исследования</a></li>
+                        <li><a href="#">Аналитика</a></li>
+                        <li><a href="#">Образование</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>Сотрудничество</h3>
+                    <ul>
+                        <li><a href="#">Реклама</a></li>
+                        <li><a href="#">Для авторов</a></li>
+                        <li><a href="#">Для медиа</a></li>
+                        <li><a href="#">Партнерам</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>Правовая информация</h3>
+                    <ul>
+                        <li><a href="#">Условия использования</a></li>
+                        <li><a href="#">Политика конфиденциальности</a></li>
+                        <li><a href="#">Согласие на обработку данных</a></li>
+                        <li><a href="#">Правовая оговорка</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 AI-Pulse. Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
 </body>
 </html>
